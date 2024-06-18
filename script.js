@@ -1,6 +1,63 @@
+var StartScene = new Phaser.Class({
+  Extends: Phaser.Scene,
+
+  initialize: function StartScene() {
+    Phaser.Scene.call(this, { key: "startScene" });
+  },
+
+  preload: function () {
+    this.load.image(
+      "character1",
+      "https://play.rosebud.ai/assets/Designer (2)-Photoroom.png?mhLw"
+    );
+    this.load.audio(
+      "backgroundMusic",
+      "https://play.rosebud.ai/assets/Bensound  - Dreams - Chill Royalty Free Music (320)-[AudioTrimmer.com] (1).mp3?zpZj"
+    );
+  },
+
+  create: function () {
+    // Add the character1 image to fill the entire screen
+    this.add
+      .image(0, 0, "character1")
+      .setOrigin(0, 0)
+      .setScale(this.scale.width / 1000, this.scale.height / 800);
+
+    var title = this.add
+      .text(200, 300, "", {
+        color: "black",
+        fontFamily: "Arial",
+        fontSize: "60px",
+        padding: 0,
+      })
+      .setStroke("#FFFFFF", 9);
+
+    var startButton = this.add
+      .text(300, 500, "Start", {
+        color: "white",
+        fontFamily: "Arial",
+        fontSize: "40px",
+        backgroundColor: "#ff89ff",
+        padding: { left: 50, right: 50, top: 10, bottom: 10 },
+      })
+      .setInteractive();
+
+    startButton.on("pointerdown", () => this.scene.start("exampleScene"));
+    startButton.on("pointerover", () =>
+      startButton.setBackgroundColor("#ff89ff")
+    );
+    startButton.on("pointerout", () =>
+      startButton.setBackgroundColor("rgba(0,0,0,0.6)")
+    );
+
+    this.music = this.sound.add("backgroundMusic");
+    this.music.play({ loop: true });
+  },
+});
+
 class Example extends Phaser.Scene {
   constructor() {
-    super();
+    super({ key: "exampleScene" });
     this.cardSize = 100;
     this.spacing = 20;
     this.clickedCards = [];
@@ -76,8 +133,8 @@ class Example extends Phaser.Scene {
     const totalWidth = 4 * context.cardSize + 3 * context.spacing;
     const totalHeight = 4 * context.cardSize + 3 * context.spacing;
 
-    const startX = (context.sys.canvas.width - totalWidth) / 2 + 20; // Shifted cards 20 pixels to the right
-    const startY = context.sys.canvas.height - totalHeight;
+    const startX = (context.sys.canvas.width - totalWidth) / 2 + 40; // Shifted cards 20 pixels to the right
+    const startY = context.sys.canvas.height - totalHeight + 30;
 
     context.clickedCards = [];
     context.cardBackSprites = [];
@@ -90,7 +147,7 @@ class Example extends Phaser.Scene {
       context.sys.canvas.width / 2,
       10,
       "Countdown: " + countdownUncovered,
-      { fontSize: "35px", fill: "#fdc5e0" }
+      { fontSize: "35px", fill: "#fdc5e0", fontFamily: "Orbitron" }
     );
     countdownText.setOrigin(0.5, 0);
 
@@ -98,22 +155,37 @@ class Example extends Phaser.Scene {
       context.sys.canvas.width / 2,
       countdownText.y + countdownText.height + 10,
       "Total Pairs Matched: ",
-      { fontSize: "20px", fill: "#ffe0e9", fontWeight: "bold" }
+      {
+        fontSize: "20px",
+        fill: "#ffe0e9",
+        fontFamily: "Orbitron",
+        fontWeight: "bold",
+      }
     );
     totalPairsMatchedText.setOrigin(0.5, 0);
     var totalMatchedPairsText = context.add.text(
       totalPairsMatchedText.x + totalPairsMatchedText.width / 2,
       totalPairsMatchedText.y,
       context.totalMatchedPairs,
-      { fontSize: "20px", fill: "#ffe0e9", fontWeight: "bold" }
+      {
+        fontSize: "20px",
+        fill: "#ffe0e9",
+        fontFamily: "Orbitron",
+        fontWeight: "bold",
+      }
     );
     totalMatchedPairsText.setOrigin(0, 0);
 
     var memorizeText = context.add.text(
       context.sys.canvas.width / 2,
-      startY / 2,
-      "",
-      { fontSize: "40px", fill: "#ff69eb", align: "center" }
+      startY / 1.8,
+      "Memorize the cards",
+      {
+        fontSize: "40px",
+        fill: "#ff69eb",
+        fontFamily: "Orbitron",
+        align: "center",
+      }
     );
     memorizeText.setOrigin(0.5, 0.5);
 
@@ -249,18 +321,40 @@ class Example extends Phaser.Scene {
                   .setScale(context.scaleX, context.scaleY);
                 var finalScoreText = context.add.text(
                   context.sys.canvas.width / 2,
-                  context.sys.canvas.height / 2,
+                  context.sys.canvas.height / 2 - 50,
                   "Final Score: " +
                     context.totalMatchedPairs +
-                    "\nPress ENTER to restart.",
+                    "\nPress ENTER to restart, or press the button to finish",
                   {
-                    fontSize: "50px",
-                    fill: "#ADD8E6",
+                    fontSize: "30px",
+                    fill: "#ff69eb",
                     align: "center",
                     fontWeight: "bold",
+                    fontFamily: "Orbitron",
                   }
                 );
                 finalScoreText.setOrigin(0.5, 0.5);
+
+                // Add a button to go to the next scene
+                var nextSceneButton = context.add
+                  .text(
+                    context.sys.canvas.width / 2,
+                    context.sys.canvas.height / 2 + 50,
+                    "Learn More",
+                    {
+                      fontSize: "45px",
+                      fill: "#ffffff",
+                      backgroundColor: "#ff89ff",
+                      padding: { left: 20, right: 20, top: 10, bottom: 10 },
+                      fontFamily: "Orbitron",
+                    }
+                  )
+                  .setInteractive();
+
+                nextSceneButton.on("pointerdown", () => {
+                  context.scene.start("nextScene");
+                });
+
                 this.gameOver = true;
                 this.ignoreClicks = true;
               }
@@ -274,6 +368,33 @@ class Example extends Phaser.Scene {
   }
 }
 
+class NextScene extends Phaser.Scene {
+  constructor() {
+    super({ key: "nextScene" });
+  }
+
+  preload() {
+    this.load.image(
+      "background2",
+      "https://play.rosebud.ai/assets/188.png?KQs3"
+    );
+  }
+
+  create() {
+    // Add the background image to the scene
+    const backgroundImage = this.add.image(0, 0, "background2");
+
+    // Set the image to fill the entire screen while maintaining aspect ratio
+    backgroundImage.setOrigin(0, 0);
+    backgroundImage.setScale(
+      this.scale.width / backgroundImage.width,
+      this.scale.height / backgroundImage.height
+    );
+
+    // Add any additional content or functionality for the scene here
+  }
+}
+
 const container = document.getElementById("renderDiv");
 const config = {
   type: Phaser.AUTO,
@@ -284,7 +405,7 @@ const config = {
   },
   width: 800,
   height: 600,
-  scene: Example,
+  scene: [StartScene, Example, NextScene],
 };
 
 window.phaserGame = new Phaser.Game(config);
