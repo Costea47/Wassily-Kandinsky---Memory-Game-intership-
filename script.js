@@ -324,9 +324,9 @@ class Example extends Phaser.Scene {
                   context.sys.canvas.height / 2 - 50,
                   "Final Score: " +
                     context.totalMatchedPairs +
-                    "\nPress ENTER to restart, or press the button to finish",
+                    "\nPress ENTER to restart, or press the button to continue",
                   {
-                    fontSize: "30px",
+                    fontSize: "35px",
                     fill: "#ff69eb",
                     align: "center",
                     fontWeight: "bold",
@@ -342,7 +342,7 @@ class Example extends Phaser.Scene {
                     context.sys.canvas.height / 2 + 50,
                     "Learn More",
                     {
-                      fontSize: "45px",
+                      fontSize: "30px",
                       fill: "#ffffff",
                       backgroundColor: "#ff89ff",
                       padding: { left: 20, right: 20, top: 10, bottom: 10 },
@@ -392,9 +392,119 @@ class NextScene extends Phaser.Scene {
     );
 
     // Add any additional content or functionality for the scene here
+    // Add a button to go to the next scene
+    const nextSceneButton = this.add
+      .text(
+        this.sys.canvas.width / 2,
+        this.sys.canvas.height - 50,
+        "Next Page",
+        {
+          fontSize: "30px",
+          fill: "#ffffff",
+          backgroundColor: "#ff89ff",
+          padding: { left: 10, right: 10, top: 5, bottom: 5 },
+          fontFamily: "Orbitron",
+        }
+      )
+      .setInteractive();
+
+    nextSceneButton.on("pointerdown", () => {
+      // Add your code to transition to the next scene here
+      // For example:
+      this.scene.start("nextSceneName");
+    });
   }
 }
 
+class NextSceneName extends Phaser.Scene {
+  constructor() {
+    super({ key: "nextSceneName" });
+  }
+
+  preload() {
+    this.load.image(
+      "background3",
+      "https://play.rosebud.ai/assets/144.png?l9n3"
+    );
+  }
+
+  create() {
+    // Add the background image to the scene
+    const backgroundImage = this.add.image(0, 0, "background3");
+
+    // Set the image to fill the entire screen while maintaining aspect ratio
+    backgroundImage.setOrigin(0, 0);
+    backgroundImage.setScale(
+      this.scale.width / backgroundImage.width,
+      this.scale.height / backgroundImage.height
+    );
+
+    // add button
+
+    const nextSceneButton = this.add
+      .text(
+        this.sys.canvas.width / 2,
+        this.sys.canvas.height - 50,
+        "Next Page",
+        {
+          fontSize: "30px",
+          fill: "#ffffff",
+          backgroundColor: "#ff89ff",
+          padding: { left: 10, right: 10, top: 5, bottom: 5 },
+          fontFamily: "Orbitron",
+        }
+      )
+      .setInteractive();
+
+    nextSceneButton.on("pointerdown", () => {
+      // Add your code to transition to the next scene here
+      // For example:
+      this.scene.start("nextSceneThree");
+    });
+  }
+}
+
+// last scene
+class NextSceneThree extends Phaser.Scene {
+  constructor() {
+    super({ key: "nextSceneThree" });
+  }
+
+  preload() {
+    this.load.image(
+      "background4",
+      "https://play.rosebud.ai/assets/177.png?9aQm"
+    );
+  }
+
+  create() {
+    // Add the background image to the scene
+    const backgroundImage = this.add.image(0, 0, "background4");
+
+    // Set the image to fill the entire screen while maintaining aspect ratio
+    backgroundImage.setOrigin(0, 0);
+    backgroundImage.setScale(
+      this.scale.width / backgroundImage.width,
+      this.scale.height / backgroundImage.height
+    );
+
+    // Add the website button
+    let websiteButton = this.add
+      .text(400, 350, "www.arts4refugees.com/", {
+        color: "#ff69eb", // Light blue color,
+        fontFamily: "Arial",
+        fontSize: "20px",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        padding: { left: 20, right: 20, top: 10, bottom: 10 },
+      })
+      .setOrigin(0.5, 1)
+      .setInteractive();
+
+    websiteButton.on("pointerdown", () => {
+      window.open("https://www.arts4refugees.com/", "_blank");
+    });
+  }
+}
 const container = document.getElementById("renderDiv");
 const config = {
   type: Phaser.AUTO,
@@ -405,7 +515,7 @@ const config = {
   },
   width: 800,
   height: 600,
-  scene: [StartScene, Example, NextScene],
+  scene: [StartScene, Example, NextScene, NextSceneName, NextSceneThree],
 };
 
 window.phaserGame = new Phaser.Game(config);
