@@ -22,11 +22,11 @@ This game is developed as part of an internship project, with the main goal of c
 
 ## Live link
 
-[Play the game here](https://costea47.github.io/Wassily-Kandinsky-Memory-Game/)
+[Play the game here](https://costea47.github.io/Wassily-Kandinsky---Memory-Game-intership-/)
 
 ## Live on RosebudAi
 
-[Check it out on RosebudAi](https://play.rosebud.ai/projects/8a47b0d3-e494-4571-82e3-573c58b036c1)
+[Check it out on RosebudAi](https://play.rosebud.ai/games/4bf7c148-50a8-4df5-a06b-df19dd195c83)
 
 ## Usage
 
@@ -34,6 +34,7 @@ The following image shows the challenge appearance and functionality:
 
 ![Application Screenshot](assets/images/screenshot.png)
 ![Application Screenshot](assets/images/screenshot2.png)
+![Application Screenshot](assets/images/screenshot3.png)
 
 ## License
 
